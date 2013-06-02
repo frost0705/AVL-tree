@@ -57,15 +57,52 @@ private:
 		}
 	}
 
-	int printYN(int layerNumber,int numberOfLayers, int lineNumber)
+	int printYN(int layerNumber, int lineNumber, int iter)
 	{
-		int answer = 1;
-		if((lineNumber&(involutionOfTwo(numberOfLayers-layerNumber-1)-1))!=(involutionOfTwo(numberOfLayers-layerNumber-1)-1))
+		if(condition(lineNumber, layerNumber)&&condition2(lineNumber, layerNumber, iter))
 		{
-			answer = 0;
+			return 1;
 		}
-		return answer;
+		else
+		{
+			return 0;
+		}
+		
+
 	}
+
+	int condition(int line, int layerNumber)
+	{
+		if(line >= involutionOfTwo(layer))
+		{
+			line-=involutionOfTwo(layer);
+		}
+
+		int x = layer-layerNumber;
+
+		if(x == (line&x))
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+		
+	}
+
+	int condition2(int line, int layerNumber, int iter)
+	{
+		if((layerNumber==layer)&&(iter > position))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	
 
 public:
 	
@@ -109,62 +146,64 @@ public:
 	
 	void print()
 	{
-		int printedLayer = layer;
-		if (position = 0)
-		{
-			printedLayer--;
-		}
-		int tempLayerSize;
-		int max;
+		/*int* lengthS = new int[layer+1];
 		int temp;
-		//Определение длинны строки для каждого уровня
-		int *lengthS = new int[printedLayer];//длины строк
-		//То самое определение
-		for(int i = 0; i<=printedLayer;i++)
+		
+		for (int i = 0; i <=layer; i++)
 		{
-			max = intLength( m[i][0]);
-			tempLayerSize = involutionOfTwo(i);
-
-			for(int j = 0; j<tempLayerSize;j++)
+			lengthS[i] = m[i][0];
+			temp = involutionOfTwo(i);
+			for(int j = 1; j<=temp; j++)
 			{
-				temp = intLength( m[i][j]);
-				if(temp>max)
+				if(lengthS[i]<intLength(m[i][j]))
 				{
-					max = temp;
-				}	
+					lengthS[i] = intLength(m[i][j]);
+				}
 			}
-			lengthS[i] = max;
 		}
-		//Количество строк? необходимых для вывода
-		int numberLines = involutionOfTwo(printedLayer+1)-1;
-		//итерратор для каждого слоя
-		int *j = new int[printedLayer+1];
-		for(int i = 0;i<printedLayer+1;i++)
+
+		int* iter = new int[layer+1];
+		
+		for(int i = 0; i<=layer; i++)
 		{
-			j[i] = 0;
+			iter[i] = 0;
 		}
-		//сейчас попробуем вывести
-		for(int i = 0; i < numberLines; i++)
+
+		int numberOfLayers = involutionOfTwo(layer+1);
+
+		for(int i = 0; i <numberOfLayers;i++)
 		{
-			cout<<i<<' ';
-			//t - иттератор слоев
-			//i - построчный итератор
-			//j - итерратор внутри слоя
-			for(int t = 0; t <= printedLayer; t++)
+			for(int j = 0; j<=layer;j++)
 			{
-				if (printYN(t,printedLayer+1,i))
+				if(printYN(j,i,iter[layer]))
 				{
-					cout<<m[t][j[t]]<<' ';
-					j[t]+=1;
-					printSpace(lengthS[t]-intLength(m[t][j[t]]));
+					cout<<m[j][iter[j]];
+					printSpace(lengthS[j]-intLength(m[j][iter[j]]));
+					iter[j]++;
 				}
 				else
 				{
-					printSpace(lengthS[t]);
+					printSpace(lengthS[j]);
+				}
+
+			}
+
+			cout<<"\n";
+		}*/
+
+		for(int i = 0; i <= layer;i++)
+		{
+			for(int j = 0; j<involutionOfTwo(i);j++)
+			{
+				if(((j<position)&&(i==layer))||(i<layer))
+				{
+					cout<<m[i][j]<<' ';
 				}
 			}
 			cout<<'\n';
 		}
+
+
 	}
 
 };
